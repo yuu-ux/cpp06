@@ -1,147 +1,102 @@
 #include "ScalarConverter.h"
 #include <cctype>
+#include <limits>
 
-std::string trim(const std::string& s) {
-	size_t start = 0;
-	size_t end = s.size();
-
-	while (start < s.size() && std::isspace(s[start])) { start++; }
-
-	while (end > start && std::isspace(s[end-1])) { end--; }
-	return s.substr(start, end-start);
+// convert function
+char convertChar(const std::string& s) {
+	return static_cast<char>(s[0]);
 }
 
-bool isPseudoFloat(const std::string& s) {
-	return (s == "-inff" or s == "+inff" or s == "nanf");
+int convertInt(const std::string& s) {
+	errno = 0;
+	char *end = 0;
+	long res = std::strtol(s.c_str(), &end, 10);
+
+	// 不正な文字が入っていた場合の処理
+	// if (*end != '\0') {
+	//
+	// }
+
+	// オーバーフローしたときの処理
+	// if (errno =- ERANGE || v < INT_MIN || v > INT_MAX) {
+	//
+	// }
+	return static_cast<int>(res);
 }
 
-bool isPseudoDouble(const std::string& s) {
-	return (s == "-inf" or s == "+inf" or s == "nan");
+int convertDouble(const std::string& s) {
+	errno = 0;
+	char *end = 0;
+	double res = std::strtod(s.c_str(), &end);
+
+	// 不正な文字が入った場合の処理
+	// if (*end != '\0') {}
+	// オーバーフローアンダーフローの処理
+	return static_cast<double>(res);
 }
 
-bool isChar(const std::string& s) {
-	if (s.size() == 1) {
-		unsigned char c = static_cast<unsigned char>(s[0]);
-		return (std::isprint(c) && !std::isdigit(c));
-	}
-	return false;
+int convertFloat(const std::string& s) {
+	double d = convertDouble(s);
+	return static_cast<float>(d);
 }
 
-bool isSign(int ch) { return (ch == '+' or ch == '-');}
-
-bool isInt(const std::string& s) {
-	size_t i = 0;
-	size_t sLen = s.size();
-	if (isSign(s[i])) {i++;}
-	if (i >= sLen) {return false;}
-	while (i < sLen) {
-		unsigned char c = static_cast<unsigned char>(s[i]);
-		if (!std::isdigit(c)) { return false; }
-		++i;
-	}
-	return true;
+float convertPseudoFloat(const std::string& s) {
+	if (s == "+inff") return std::numeric_limits<float>::infinity();
+	if (s == "-inff") return -std::numeric_limits<float>::infinity();
+	return std::numeric_limits<float>::quiet_NaN();
 }
 
-bool isFloat(const std::string& s) {
-	size_t sLen = s.size();
-	if (sLen < 2 || s[sLen-1] != 'f') { return false; }
-
-	std::string core = s.substr(0, sLen-1);
-
-	size_t i = 0;
-	size_t coreLen = core.size();
-	if (isSign(core[i])) ++i;
-	if (i >= coreLen) return false;
-
-	bool hasDigit = false;
-	bool hasDot = false;
-	for (; i < coreLen; ++i) {
-		unsigned char c = static_cast<unsigned char>(core[i]);
-		if (std::isdigit(c)) {
-			hasDigit = true;
-		} else if (c == '.') {
-			if (hasDot) return false;
-			hasDot = true;
-		} else {
-			return false;
-		}
-	}
-	return hasDigit;
+double convertPseudoDouble(const std::string& s) {
+	if (s == "+inf") return std::numeric_limits<double>::infinity();
+	if (s == "-inf") return -std::numeric_limits<double>::infinity();
+	return std::numeric_limits<double>::quiet_NaN();
 }
 
-bool isDouble(const std::string& s) {
-	size_t i = 0;
-	size_t sLen = s.size();
-
-	if (isSign(s[i])) ++i;
-	if (i >= sLen) return false;
-
-	bool hasDigit = false;
-	bool hasDot = false;
-	for (; i < sLen; ++i) {
-		unsigned char c = static_cast<unsigned char>(s[i]);
-		if (std::isdigit(c)) {
-			hasDigit = true;
-		} else if (c == '.') {
-			if (hasDot) return false;
-			hasDot = true;
-		} else {
-			return false;
-		}
-	}
-	return hasDigit;
-}
-
-ScalarConverter::Type ScalarConverter::detectType(const std::string& raw) {
-    const std::string s = trim(raw);
-	if (raw.empty()) { return T_INVALID; }
-
-    if (isPseudoFloat(s))  return T_PSEUDO_FLOAT;
-    if (isPseudoDouble(s)) return T_PSEUDO_DOUBLE;
-
-    if (isChar(s))  return T_CHAR;
-
-    if (isInt(s))    return T_INT;
-    if (isFloat(s))  return T_FLOAT;
-    if (isDouble(s)) return T_DOUBLE;
-
-    return T_INVALID;
-}
+// print function
+// void printAll(char c) {}
+// void printAll(int c) {}
+// void printAll(double c) {}
+// void printAll(float c) {}
 
 void ScalarConverter::convert(const std::string& s) {
     switch (detectType(s)) {
     case T_CHAR: {
         char c = convertChar(s);
-        printAll(c);
+		std::cout << c << std::endl;
+        // printAll(c);
         break;
     }
     case T_INT: {
         int i = convertInt(s);
-        printAll(i);
+		std::cout << i << std::endl;
+        // printAll(i);
         break;
     }
     case T_FLOAT: {
         float f = convertFloat(s);
-        printAll(f);
+		std::cout << f << 'f' << std::endl;
+        // printAll(f);
         break;
     }
     case T_DOUBLE: {
         double d = convertDouble(s);
-        printAll(d);
+		std::cout << "double: " << d << std::endl;
+        // printAll(d);
         break;
     }
     case T_PSEUDO_FLOAT: {
         float f = convertPseudoFloat(s);
-        printAll(f, /*wasPseudo=*/true);
+		std::cout << f << std::endl;
+        // printAll(f, /*wasPseudo=*/true);
         break;
     }
     case T_PSEUDO_DOUBLE: {
         double d = convertPseudoDouble(s);
-        printAll(d, /*wasPseudo=*/true);
+		std::cout << d << std::endl;
+        // printAll(d, /*wasPseudo=*/true);
         break;
     }
     default:
         std::cout << "char: impossible\nint: impossible\nfloat: impossible\ndouble: impossible\n";
     }
 }
-

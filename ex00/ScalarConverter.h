@@ -3,6 +3,9 @@
 
 #include <string>
 #include <iostream>
+#include <cstdlib>
+#include <cerrno>
+
 class ScalarConverter {
 	public:
 		static void convert(const std::string& s);
