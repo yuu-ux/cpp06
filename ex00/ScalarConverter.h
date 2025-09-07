@@ -3,15 +3,21 @@
 
 #include <string>
 #include <iostream>
-class scalarconverter {
+class ScalarConverter {
 	public:
-		static int convert(std::string& target);
+        typedef struct {
+            char *charPtr;
+            int *intPtr;
+            float *floatPtr;
+            double *doublePtr;
+        } ConvertResult;
+		static ConvertResult convert(std::string& target);
 
 	private:
-		scalarconverter();
-		scalarconverter(const scalarconverter& other);
-		scalarconverter& operator=(const scalarconverter &other);
-		~scalarconverter();
+		ScalarConverter();
+		ScalarConverter(const ScalarConverter& other);
+		ScalarConverter& operator=(const ScalarConverter &other);
+		~ScalarConverter();
 };
 
 #endif
