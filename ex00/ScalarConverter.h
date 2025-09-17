@@ -23,4 +23,10 @@ class ScalarConverter {
 		ScalarConverter();
 		static Type detectType(const std::string& s);
 };
+
+void printAll(char c);
+void printAll(long c);
+void printAll(float c, bool wasPseudo=false);
+void printAll(double c, bool wasPseudo=false);
+
 #endif
