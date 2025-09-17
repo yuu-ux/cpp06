@@ -2,15 +2,17 @@
 #include <cmath>
 #include <limits>
 
+const int ASCII_PRINTABLE_MIN = 32;
+const int ASCII_PRINTABLE_MAX = 126;
 bool ft_isfinite(double x) {
 	return !std::isnan(x) && !std::isinf(x);
 }
 
 // print function
-void printChar(char value) {
+void printChar(int value) {
 	std::cout << "char: ";
-	if (std::isprint(value)) {
-		std::cout << "'" << value << "'" << std::endl;
+	if (value >= ASCII_PRINTABLE_MIN && value <= ASCII_PRINTABLE_MAX) {
+		std::cout << "'" << static_cast<char>(value) << "'" << std::endl;
 	} else {
 		std::cout << "Non displayable" << std::endl;
 	}
@@ -47,7 +49,7 @@ void printAll(char c) {
 }
 
 void printAll(long c) {
-	printChar(static_cast<char>(c));
+	printChar(static_cast<int>(c));
 	printInt(c);
 	printFloat(static_cast<float>(c));
 	printDouble(static_cast<double>(c));

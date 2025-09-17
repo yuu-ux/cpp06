@@ -1,7 +1,6 @@
 #include "ScalarConverter.h"
 #include <cctype>
 #include <limits>
-#include <stdexcept>
 
 // convert function
 char convertChar(const std::string& s) {
@@ -9,7 +8,6 @@ char convertChar(const std::string& s) {
 }
 
 long convertInt(const std::string& s) {
-	errno = 0;
 	char *end = 0;
 	long res = std::strtol(s.c_str(), &end, 10);
 	return res;
