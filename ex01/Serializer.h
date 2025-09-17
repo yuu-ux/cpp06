@@ -2,6 +2,7 @@
 #define SERIALIZER_H
 
 #include <stdint.h>
+#include <iostream>
 #include "Data.h"
 
 class Serializer {
