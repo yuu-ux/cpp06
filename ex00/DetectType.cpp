@@ -93,8 +93,9 @@ bool isDouble(const std::string& s) {
 }
 
 ScalarConverter::Type ScalarConverter::detectType(const std::string& raw) {
+	if (raw[0] == ' ') return T_CHAR;
     const std::string s = trim(raw);
-	if (raw.empty()) { return T_INVALID; }
+	if (raw.empty()) return T_INVALID;
 
     if (isPseudoFloat(s))  return T_PSEUDO_FLOAT;
     if (isPseudoDouble(s)) return T_PSEUDO_DOUBLE;
