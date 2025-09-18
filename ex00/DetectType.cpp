@@ -1,4 +1,5 @@
 #include "ScalarConverter.h"
+#include <cstdlib>
 
 std::string trim(const std::string& s) {
 	size_t start = 0;
@@ -30,66 +31,21 @@ bool isChar(const std::string& s) {
 bool isSign(int ch) { return (ch == '+' or ch == '-');}
 
 bool isInt(const std::string& s) {
-	size_t i = 0;
-	size_t sLen = s.size();
-	if (isSign(s[i])) {i++;}
-	if (i >= sLen) {return false;}
-	while (i < sLen) {
-		unsigned char c = static_cast<unsigned char>(s[i]);
-		if (!std::isdigit(c)) { return false; }
-		++i;
-	}
-	return true;
+	char *ptr;
+	strtol(s.c_str(), &ptr, 10);
+	return (*ptr == '\0');
 }
 
 bool isFloat(const std::string& s) {
-	size_t sLen = s.size();
-	if (sLen < 2 || s[sLen-1] != 'f') { return false; }
-
-	std::string core = s.substr(0, sLen-1);
-
-	size_t i = 0;
-	size_t coreLen = core.size();
-	if (isSign(core[i])) ++i;
-	if (i >= coreLen) return false;
-
-	bool hasDigit = false;
-	bool hasDot = false;
-	for (; i < coreLen; ++i) {
-		unsigned char c = static_cast<unsigned char>(core[i]);
-		if (std::isdigit(c)) {
-			hasDigit = true;
-		} else if (c == '.') {
-			if (hasDot) return false;
-			hasDot = true;
-		} else {
-			return false;
-		}
-	}
-	return hasDigit;
+	char *ptr;
+	strtof(s.c_str(), &ptr);
+	return (*ptr == 'f' && *(ptr + 1) == '\0');
 }
 
 bool isDouble(const std::string& s) {
-	size_t i = 0;
-	size_t sLen = s.size();
-
-	if (isSign(s[i])) ++i;
-	if (i >= sLen) return false;
-
-	bool hasDigit = false;
-	bool hasDot = false;
-	for (; i < sLen; ++i) {
-		unsigned char c = static_cast<unsigned char>(s[i]);
-		if (std::isdigit(c)) {
-			hasDigit = true;
-		} else if (c == '.') {
-			if (hasDot) return false;
-			hasDot = true;
-		} else {
-			return false;
-		}
-	}
-	return hasDigit;
+	char *ptr;
+	strtod(s.c_str(), &ptr);
+	return (*ptr == '\0');
 }
 
 ScalarConverter::Type ScalarConverter::detectType(const std::string& raw) {
