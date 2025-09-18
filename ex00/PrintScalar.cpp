@@ -29,9 +29,9 @@ void printInt(long value) {
 	std::cout << "int: " << static_cast<int>(value) << std::endl;
 }
 
-void printFloat(double value) {
+void printFloat(double value, bool wasPseudo=false) {
 	std::cout << "float: ";
-	if (!ft_isfinite(value)) {
+	if (wasPseudo) {
 		std::cout << static_cast<float>(value) << 'f' << std::endl;
 		return ;
 	}
@@ -49,9 +49,9 @@ void printFloat(double value) {
 	std::cout << "f" << std::endl;
 }
 
-void printDouble(double value) {
+void printDouble(double value, bool wasPseudo=false) {
 	std::cout << "double: ";
-	if (!ft_isfinite(value)) {
+	if (wasPseudo) {
 		std::cout << static_cast<double>(value) << std::endl;;
 		return ;
 	}
@@ -91,6 +91,6 @@ void printAll(double c, bool wasPseudo) {
 		std::cout << "char: impossible" << std::endl;
 		std::cout << "int: impossible" << std::endl;
 	}
-	printFloat(c);
-	printDouble(c);
+	printFloat(c, wasPseudo);
+	printDouble(c, wasPseudo);
 }
