@@ -44,8 +44,8 @@ void printDouble(double value) {
 }
 
 void printAll(char c) {
-	printChar(c);
-	printInt(static_cast<int>(c));
+	printChar(static_cast<int>(c));
+	printInt(static_cast<long>(c));
 	printFloat(static_cast<float>(c));
 	printDouble(static_cast<double>(c));
 }
@@ -59,8 +59,8 @@ void printAll(long c) {
 
 void printAll(float c, bool wasPseudo) {
 	if (!wasPseudo) {
-		printChar(static_cast<char>(c));
-		printInt(static_cast<int>(c));
+		printChar(static_cast<int>(c));
+		printInt(static_cast<long>(c));
 	} else {
 		std::cout << "char: impossible" << std::endl;
 		std::cout << "int: impossible" << std::endl;
@@ -71,8 +71,8 @@ void printAll(float c, bool wasPseudo) {
 
 void printAll(double c, bool wasPseudo) {
 	if (!wasPseudo) {
-		printChar(static_cast<char>(c));
-		printInt(static_cast<int>(c));
+		printChar(static_cast<int>(c));
+		printInt(static_cast<long>(c));
 	} else {
 		std::cout << "char: impossible" << std::endl;
 		std::cout << "int: impossible" << std::endl;
