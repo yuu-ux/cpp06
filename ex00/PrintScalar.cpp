@@ -13,6 +13,8 @@ void printChar(int value) {
 	std::cout << "char: ";
 	if (value >= ASCII_PRINTABLE_MIN && value <= ASCII_PRINTABLE_MAX) {
 		std::cout << "'" << static_cast<char>(value) << "'" << std::endl;
+	} else if (value < std::numeric_limits<char>::min() || value > std::numeric_limits<char>::max()) {
+		std::cout << "impossible" << std::endl;
 	} else {
 		std::cout << "Non displayable" << std::endl;
 	}
