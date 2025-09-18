@@ -8,25 +8,20 @@ char convertChar(const std::string& s) {
 }
 
 long convertInt(const std::string& s) {
-	char *end = 0;
+	char *end;
 	long res = std::strtol(s.c_str(), &end, 10);
 	return res;
 }
 
 double convertDouble(const std::string& s) {
-	errno = 0;
-	char *end = 0;
+	char *end;
 	double res = std::strtod(s.c_str(), &end);
-
-	// 不正な文字が入った場合の処理
-	// if (*end != '\0') {}
-	// オーバーフローアンダーフローの処理
-	return static_cast<double>(res);
+	return res;
 }
 
-float convertFloat(const std::string& s) {
+double convertFloat(const std::string& s) {
 	double d = convertDouble(s);
-	return static_cast<float>(d);
+	return (d);
 }
 
 float convertPseudoFloat(const std::string& s) {
@@ -55,7 +50,7 @@ void ScalarConverter::convert(const std::string& s) {
         break;
     }
     case T_FLOAT: {
-        float f = convertFloat(s);
+        double f = convertFloat(s);
         printAll(f);
         break;
     }
@@ -65,7 +60,7 @@ void ScalarConverter::convert(const std::string& s) {
         break;
     }
     case T_PSEUDO_FLOAT: {
-        float f = convertPseudoFloat(s);
+        double f = convertPseudoFloat(s);
         printAll(f, true);
         break;
     }
