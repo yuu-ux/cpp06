@@ -2,6 +2,14 @@
 #include <cctype>
 #include <limits>
 
+ScalarConverter::ScalarConverter() {}
+ScalarConverter::ScalarConverter(const ScalarConverter &other) {(void)other;}
+ScalarConverter& ScalarConverter::operator=(const ScalarConverter &other) {
+	(void)other;
+	return *this;
+}
+ScalarConverter::~ScalarConverter() {}
+
 // convert function
 char convertChar(const std::string& s) {
 	return static_cast<char>(s[0]);
