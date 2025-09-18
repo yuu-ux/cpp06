@@ -29,15 +29,41 @@ void printInt(long value) {
 	std::cout << "int: " << static_cast<int>(value) << std::endl;
 }
 
-void printFloat(float value) {
-	std::cout << "float: " << value;
+void printFloat(double value) {
+	std::cout << "float: ";
+	if (!ft_isfinite(value)) {
+		std::cout << static_cast<float>(value) << 'f' << std::endl;
+		return ;
+	}
+
+	const double fmax = std::numeric_limits<float>::max();
+	if (value > fmax || value < -fmax)
+	{
+		std::cout << "impossible" << std::endl;
+		return ;
+	}
+
+	std::cout << static_cast<float>(value);
 	if (value == static_cast<int>(value))
 		std::cout << ".0";
 	std::cout << "f" << std::endl;
 }
 
 void printDouble(double value) {
-	std::cout << "double: " << value;
+	std::cout << "double: ";
+	if (!ft_isfinite(value)) {
+		std::cout << static_cast<double>(value) << std::endl;;
+		return ;
+	}
+
+	const double dmax = std::numeric_limits<double>::max();
+	if (value > dmax || value < -dmax)
+	{
+		std::cout << "impossible" << std::endl;
+		return ;
+	}
+
+	std::cout << value;
 	if (value == static_cast<int>(value))
 		std::cout << ".0";
 	std::cout << std::endl;
@@ -46,26 +72,14 @@ void printDouble(double value) {
 void printAll(char c) {
 	printChar(static_cast<int>(c));
 	printInt(static_cast<long>(c));
-	printFloat(static_cast<float>(c));
+	printFloat(static_cast<double>(c));
 	printDouble(static_cast<double>(c));
 }
 
 void printAll(long c) {
 	printChar(static_cast<int>(c));
 	printInt(c);
-	printFloat(static_cast<float>(c));
-	printDouble(static_cast<double>(c));
-}
-
-void printAll(float c, bool wasPseudo) {
-	if (!wasPseudo) {
-		printChar(static_cast<int>(c));
-		printInt(static_cast<long>(c));
-	} else {
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
-	}
-	printFloat(c);
+	printFloat(static_cast<double>(c));
 	printDouble(static_cast<double>(c));
 }
 
@@ -77,7 +91,6 @@ void printAll(double c, bool wasPseudo) {
 		std::cout << "char: impossible" << std::endl;
 		std::cout << "int: impossible" << std::endl;
 	}
-	printFloat(static_cast<float>(c));
+	printFloat(c);
 	printDouble(c);
 }
-
